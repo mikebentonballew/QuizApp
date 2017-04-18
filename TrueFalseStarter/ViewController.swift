@@ -27,8 +27,13 @@ class ViewController: UIViewController {
     ]
     
     @IBOutlet weak var questionField: UILabel!
-    @IBOutlet weak var trueButton: UIButton!
-    @IBOutlet weak var falseButton: UIButton!
+    @IBOutlet weak var answerStatus: UILabel!
+    @IBOutlet weak var choiceOne: UIButton!
+    @IBOutlet weak var choiceTwo: UIButton!
+    @IBOutlet weak var choiceThree: UIButton!
+    @IBOutlet weak var choiceFour: UIButton!
+    
+
     @IBOutlet weak var playAgainButton: UIButton!
     
 
@@ -47,15 +52,19 @@ class ViewController: UIViewController {
     
     func displayQuestion() {
         indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: trivia.count)
-        let questionDictionary = trivia[indexOfSelectedQuestion]
-        questionField.text = questionDictionary["Question"]
+        questionField.text = firstQuestion.returnQuestion()
+        answerStatus.isHidden = true
+        choiceOne.setTitle(firstQuestion.choices[1], for: UIControlState.normal)
+        choiceTwo.setTitle(firstQuestion.choices[2], for: UIControlState.normal)
+        choiceThree.setTitle(firstQuestion.choices[3], for: UIControlState.normal)
+        choiceFour.setTitle(firstQuestion.choices[4], for: UIControlState.normal)
         playAgainButton.isHidden = true
     }
     
     func displayScore() {
         // Hide the answer buttons
-        trueButton.isHidden = true
-        falseButton.isHidden = true
+        //trueButton.isHidden = true
+        //falseButton.isHidden = true
         
         // Display play again button
         playAgainButton.isHidden = false
@@ -67,18 +76,24 @@ class ViewController: UIViewController {
     @IBAction func checkAnswer(_ sender: UIButton) {
         // Increment the questions asked counter
         questionsAsked += 1
+        let correctAnswer = firstQuestion.answer
+        if (sender === choiceOne && correctAnswer == 1) {
+            answerStatus.text = "Correct!"
+            correctQuestions += 1
+        } else {
+            answerStatus.text = "Sorry, That is Not the Answer."
+        }
+        //let selectedQuestionDict = trivia[indexOfSelectedQuestion]
+        //let correctAnswer = selectedQuestionDict["Answer"]
         
-        let selectedQuestionDict = trivia[indexOfSelectedQuestion]
-        let correctAnswer = selectedQuestionDict["Answer"]
-        
-        if (sender === trueButton &&  correctAnswer == "True") || (sender === falseButton && correctAnswer == "False") {
+        /*if (sender === trueButton &&  correctAnswer == "True") || (sender === falseButton && correctAnswer == "False") {
             correctQuestions += 1
             questionField.text = "Correct!"
         } else {
             questionField.text = "Sorry, wrong answer!"
-        }
-        
-        loadNextRoundWithDelay(seconds: 2)
+        }*/
+        answerStatus.isHidden = false
+        loadNextRoundWithDelay(seconds: 1)
     }
     
     func nextRound() {
@@ -93,8 +108,8 @@ class ViewController: UIViewController {
     
     @IBAction func playAgain() {
         // Show the answer buttons
-        trueButton.isHidden = false
-        falseButton.isHidden = false
+        // trueButton.isHidden = false
+        // falseButton.isHidden = false
         
         questionsAsked = 0
         correctQuestions = 0
