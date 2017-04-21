@@ -16,15 +16,28 @@ class ViewController: UIViewController {
     var questionsAsked = 0
     var correctQuestions = 0
     var indexOfSelectedQuestion: Int = 0
-    
     var gameSound: SystemSoundID = 0
     
-    let trivia: [[String : String]] = [
-        ["Question": "Only female koalas can whistle", "Answer": "False"],
-        ["Question": "Blue whales are technically whales", "Answer": "True"],
-        ["Question": "Camels are cannibalistic", "Answer": "False"],
-        ["Question": "All ducks are birds", "Answer": "True"]
-    ]
+    let questionSet : [Questions] = [Questions(question: "The largest circular storm in our solar system is on the surface of which of the following planets?", choices: [1:"Jupiter",2:"Venus",3:"Uranus",4:"Earth"], answer: 1),
+                                     Questions(question: "The rapidly moving stream of charged particles that is being driven away from the sun is known as what?", choices: [1:"Solar Wind",2:"Sun Blow",3:"The Winds of Sol",4:"Star Whisper"], answer: 1),
+                                     Questions(question: "The biggest asteroid known is:", choices: [1:"Vesta",2:"Icarus",3:"Ceres",4:"Eros"], answer: 3),
+                                     Questions(question: "Rounded to the nearest day, the Mercurian year is equal to:", choices: [1:"111",2:"88",3:"50",4:"25"], answer: 2),
+                                     Questions(question: "One of the largest volcanos in our solar system-if not the largest-is named Olympus Mons. This volcano is located on:", choices: [1:"Jupiter's moon Callisto",2:"Venus",3:"Saturn's moon Titan",4:"Mars"], answer: 4),
+                                     Questions(question: "One Jupiter day is equal to which of the following? ", choices: [1:"1d 6h 40m",2:"9h 50m",3:"3h 20m",4:"2d 4h 10m"], answer: 2),
+                                     Questions(question: "The time interval between two successive occurrences of a specific type of alignment of a planet (or the moon) with the sun and the earth is referred to as:", choices: [1:"a conjunction",2:"an opposition",3:"a sidereal period",4:"a synodic period"], answer: 4),
+                                     Questions(question: "During the period between 1979 and 1998, what was the farthest planet from the sun?", choices: [1:"Neptune",2:"Pluto",3:"Jupiter",4:"Mars"], answer: 1),
+                                     Questions(question: "Of the following four times, which one best represents the time it takes energy generated in the core of the sun to reach the surface of the sun and be radiated?", choices: [1:"Three minutes",2:"Thirty Days",3:"One thousand years",4:"One million years"], answer: 4),
+                                     Questions(question: "The sunspot cycle is:", choices: [1:"3 years",2:"11 years",3:"26 years",4:"49 years"], answer: 2),
+                                     Questions(question: "The andromeda Galaxy is which of the following types of galaxies?", choices: [1:"elliptical",2:"spiral",3:"barred-spiral",4:"irregular"], answer: 2),
+                                     Questions(question: "About how many light years across is the Milky Way?", choices: [1:"1000",2:"10000",3:"100000",4:"1000000"], answer: 3),
+                                     Questions(question: "Which unlucky Apollo lunar landing was canceled after an oxygen tank exploded?", choices: [1:"Apollo 13",2:"Apollo 19",3:"Apollo 1",4:"Showtime at the Apollo"], answer: 1),
+                                     Questions(question: "Heliocentric means around:", choices: [1:"Jupiter",2:"the Moon",3:"the Sun",4:"Neptune"], answer: 3),
+                                     Questions(question: "Triton, Neptune's moon, has an ocean made of a liquid. What is this liquid?", choices: [1:"Nitrogen",2:"Wet",3:"Gold",4:"Methane"], answer: 1),
+                                     Questions(question: "What is the star nearest to the sun? ", choices: [1:"Alpha Centauri/Proxima Centauri",2:"Betelgeuse",3:"Rigel",4:"Jake Gyllenhaal"], answer: 1),
+                                     Questions(question: "When the earth if farthest from the sun, what season is it in the Northern Hemisphere?", choices: [1:"Summer",2:"Fall",3:"Winter",4:"Spring"], answer: 1),
+                                     Questions(question: "Of the nine known planets, seven have one or more natural satellites. Name the only two moonless planets.", choices: [1:"Venus and Mercury",2:"Jupiter and Mars",3:"Saturn and Earth",4:"Pluto and Uranus"], answer: 1),
+                                     Questions(question: "A typical galaxy, such as our Milky Way galaxy, contains how many billion stars? Is it approximately:", choices: [1:"10 billion",2:"40 billion",3:"200 billion",4:"800 billion"], answer: 3)]
+
     
     @IBOutlet weak var questionField: UILabel!
     @IBOutlet weak var answerStatus: UILabel!
@@ -32,8 +45,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var choiceTwo: UIButton!
     @IBOutlet weak var choiceThree: UIButton!
     @IBOutlet weak var choiceFour: UIButton!
-    
-
     @IBOutlet weak var playAgainButton: UIButton!
     
 
@@ -51,21 +62,17 @@ class ViewController: UIViewController {
     }
     
     func displayQuestion() {
-        indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: trivia.count)
-        questionField.text = firstQuestion.returnQuestion()
+        indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: questionSet.count)
+        questionField.text = questionSet[indexOfSelectedQuestion].returnQuestion()
         answerStatus.isHidden = true
-        choiceOne.setTitle(firstQuestion.choices[1], for: UIControlState.normal)
-        choiceTwo.setTitle(firstQuestion.choices[2], for: UIControlState.normal)
-        choiceThree.setTitle(firstQuestion.choices[3], for: UIControlState.normal)
-        choiceFour.setTitle(firstQuestion.choices[4], for: UIControlState.normal)
+        choiceOne.setTitle(questionSet[indexOfSelectedQuestion].returnChoice(choiceNumber: 1), for: UIControlState.normal)
+        choiceTwo.setTitle(questionSet[indexOfSelectedQuestion].returnChoice(choiceNumber: 2), for: UIControlState.normal)
+        choiceThree.setTitle(questionSet[indexOfSelectedQuestion].returnChoice(choiceNumber: 3), for: UIControlState.normal)
+        choiceFour.setTitle(questionSet[indexOfSelectedQuestion].returnChoice(choiceNumber: 4), for: UIControlState.normal)
         playAgainButton.isHidden = true
     }
     
     func displayScore() {
-        // Hide the answer buttons
-        //trueButton.isHidden = true
-        //falseButton.isHidden = true
-        
         // Display play again button
         playAgainButton.isHidden = false
         
@@ -76,22 +83,14 @@ class ViewController: UIViewController {
     @IBAction func checkAnswer(_ sender: UIButton) {
         // Increment the questions asked counter
         questionsAsked += 1
-        let correctAnswer = firstQuestion.answer
-        if (sender === choiceOne && correctAnswer == 1) {
+        let correctAnswer = questionSet[indexOfSelectedQuestion].returnAnswerNumber()
+        if (sender === choiceOne && correctAnswer == 1) || (sender === choiceTwo && correctAnswer == 2) || (sender === choiceThree && correctAnswer == 3) || (sender === choiceFour && correctAnswer == 4){
             answerStatus.text = "Correct!"
             correctQuestions += 1
         } else {
             answerStatus.text = "Sorry, That is Not the Answer."
         }
-        //let selectedQuestionDict = trivia[indexOfSelectedQuestion]
-        //let correctAnswer = selectedQuestionDict["Answer"]
-        
-        /*if (sender === trueButton &&  correctAnswer == "True") || (sender === falseButton && correctAnswer == "False") {
-            correctQuestions += 1
-            questionField.text = "Correct!"
-        } else {
-            questionField.text = "Sorry, wrong answer!"
-        }*/
+
         answerStatus.isHidden = false
         loadNextRoundWithDelay(seconds: 1)
     }
@@ -119,6 +118,7 @@ class ViewController: UIViewController {
 
     
     // MARK: Helper Methods
+
     
     func loadNextRoundWithDelay(seconds: Int) {
         // Converts a delay in seconds to nanoseconds as signed 64 bit integer
