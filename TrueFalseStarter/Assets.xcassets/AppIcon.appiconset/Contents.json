@@ -13,37 +13,37 @@
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "iOS-enhance-a-quiz-icon58@2x.png",
+      "filename" : "29point2x.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "iOS-enhance-a-quiz-icon87@3x.png",
+      "filename" : "29point3x.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "iOS-enhance-a-quiz-icon80@2x.png",
+      "filename" : "40point2x.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "iOS-enhance-a-quiz-icon120@3x.png",
+      "filename" : "40point3x.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "iOS-enhance-a-quiz-icon120@2x.png",
+      "filename" : "60point2x.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "iOS-enhance-a-quiz-icon180@3x.png",
+      "filename" : "60point3x.png",
       "scale" : "3x"
     }
   ],
