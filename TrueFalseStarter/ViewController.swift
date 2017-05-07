@@ -17,6 +17,8 @@ class ViewController: UIViewController {
     var correctQuestions = 0
     var indexOfSelectedQuestion: Int = 0
     var gameSound: SystemSoundID = 0
+    // array of available question index numbers
+    var unusedQuestionIndexes = [Int]()
     
     let questionSet : [Questions] = [Questions(question: "The largest circular storm in our solar system is on the surface of which of the following planets?", choices: [1:"Jupiter",2:"Venus",3:"Uranus",4:"Earth"], answer: 1),
                                      Questions(question: "The rapidly moving stream of charged particles that is being driven away from the sun is known as what?", choices: [1:"Solar Wind",2:"Sun Blow",3:"The Winds of Sol",4:"Star Whisper"], answer: 1),
@@ -53,6 +55,7 @@ class ViewController: UIViewController {
         loadGameStartSound()
         // Start game
         playGameStartSound()
+        generateArrayOfQuestionIdexes()
         displayQuestion()
     }
 
@@ -61,10 +64,28 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    //build array of available question indexes based on existing question set
+    func generateArrayOfQuestionIdexes() {
+        var i = 0
+        while i < questionSet.count {
+            unusedQuestionIndexes.append(i)
+            i += 1
+        }
+    }
+    
     func displayQuestion() {
-        indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: questionSet.count)
+        // get index of next question from the array of available question indexes and remove the index from the array so that it is not available again in this game
+        indexOfSelectedQuestion = unusedQuestionIndexes.remove(at: GKRandomSource.sharedRandom().nextInt(upperBound: unusedQuestionIndexes.count))
+        
         questionField.text = questionSet[indexOfSelectedQuestion].returnQuestion()
         answerStatus.isHidden = true
+        
+        // Reset all buttons to full brightness.
+        choiceOne.alpha = 1
+        choiceTwo.alpha = 1
+        choiceThree.alpha = 1
+        choiceFour.alpha = 1
+        
         choiceOne.setTitle(questionSet[indexOfSelectedQuestion].returnChoice(choiceNumber: 1), for: UIControlState.normal)
         choiceTwo.setTitle(questionSet[indexOfSelectedQuestion].returnChoice(choiceNumber: 2), for: UIControlState.normal)
         choiceThree.setTitle(questionSet[indexOfSelectedQuestion].returnChoice(choiceNumber: 3), for: UIControlState.normal)
@@ -90,9 +111,28 @@ class ViewController: UIViewController {
         } else {
             answerStatus.text = "Sorry, That is Not the Answer."
         }
-
+        
+        // Dim all answers except for the correct one.
+        if correctAnswer == 1 {
+            choiceTwo.alpha = 0.2
+            choiceThree.alpha = 0.2
+            choiceFour.alpha = 0.2
+        } else if correctAnswer == 2 {
+            choiceOne.alpha = 0.2
+            choiceThree.alpha = 0.2
+            choiceFour.alpha = 0.2
+        } else if correctAnswer == 3 {
+            choiceOne.alpha = 0.2
+            choiceTwo.alpha = 0.2
+            choiceFour.alpha = 0.2
+        } else if correctAnswer == 4 {
+            choiceOne.alpha = 0.2
+            choiceTwo.alpha = 0.2
+            choiceThree.alpha = 0.2
+        }
+        
         answerStatus.isHidden = false
-        loadNextRoundWithDelay(seconds: 1)
+        loadNextRoundWithDelay(seconds: 2)
     }
     
     func nextRound() {
@@ -112,6 +152,8 @@ class ViewController: UIViewController {
         
         questionsAsked = 0
         correctQuestions = 0
+        //rebuild array of question indexes
+        generateArrayOfQuestionIdexes()
         nextRound()
     }
     
