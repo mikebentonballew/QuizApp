@@ -35,7 +35,7 @@ class ViewController: UIViewController {
                                      Questions(question: "Which unlucky Apollo lunar landing was canceled after an oxygen tank exploded?", choices: [1:"Apollo 13",2:"Apollo 19",3:"Apollo 1",4:"Showtime at the Apollo"], answer: 1),
                                      Questions(question: "Heliocentric means around:", choices: [1:"Jupiter",2:"the Moon",3:"the Sun",4:"Neptune"], answer: 3),
                                      Questions(question: "Triton, Neptune's moon, has an ocean made of a liquid. What is this liquid?", choices: [1:"Nitrogen",2:"Wet",3:"Gold",4:"Methane"], answer: 1),
-                                     Questions(question: "What is the star nearest to the sun? ", choices: [1:"Alpha Centauri/Proxima Centauri",2:"Betelgeuse",3:"Rigel",4:"Jake Gyllenhaal"], answer: 1),
+                                     Questions(question: "What is the star nearest to the sun? ", choices: [1:"Alpha Centauri/Proxima Centauri",2:"Betelgeuse",3:"Rigel",4:"Aldebaran"], answer: 1),
                                      Questions(question: "When the earth if farthest from the sun, what season is it in the Northern Hemisphere?", choices: [1:"Summer",2:"Fall",3:"Winter",4:"Spring"], answer: 1),
                                      Questions(question: "Of the nine known planets, seven have one or more natural satellites. Name the only two moonless planets.", choices: [1:"Venus and Mercury",2:"Jupiter and Mars",3:"Saturn and Earth",4:"Pluto and Uranus"], answer: 1),
                                      Questions(question: "A typical galaxy, such as our Milky Way galaxy, contains how many billion stars? Is it approximately:", choices: [1:"10 billion",2:"40 billion",3:"200 billion",4:"800 billion"], answer: 3)]
